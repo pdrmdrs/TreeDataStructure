@@ -1,6 +1,7 @@
 package br.ufrn.imd.implementation;
 
 import br.ufrn.imd.domain.Node;
+import br.ufrn.imd.exceptions.CannotDeleteException;
 
 public class BinaryTree<T extends Comparable<T>> {
 
@@ -33,6 +34,7 @@ public class BinaryTree<T extends Comparable<T>> {
 
 	public void insert(T value) {
 		this.root = insert(this.root, value);
+		this.size+= 1;
 	}
 
 	private Node<T> insert(Node<T> node, T value) {
@@ -50,8 +52,37 @@ public class BinaryTree<T extends Comparable<T>> {
 		return node;
 	}
 
-	public void delete(Node<T> node) {
+	public void delete(T value) throws CannotDeleteException {
+		this.root = delete(this.root, value);
+	}
+	
+	private Node<T> delete(Node<T> node, T value) throws CannotDeleteException {
+		if (node == null) {
+			throw new CannotDeleteException("Cannot delete this item");
+		} else if(node.getValue().compareTo(value) > 0) {
+			node.setLeft(delete(node.getLeft(), value));
+		} else if(node.getValue().compareTo(value) < 0) {
+			node.setRight(delete(node.getRight(), value));
+		} else {
+			if(node.getLeft() == null) {
+				return node.getRight();
+			} else if(node.getRight() == null){
+				return node.getLeft();
+			} else {
+				this.size -= 1;
+				node.setValue(getData(node.getLeft()));
+				node.setLeft(delete(node.getLeft(), node.getValue()));
+			}
+		}
+		
+		return null;
+	}
 
+	private T getData(Node<T> node) {
+		while (node.getRight() != null) {
+			node = node.getRight();
+		}
+		return node.getValue();
 	}
 
 	public boolean search(T value) {
