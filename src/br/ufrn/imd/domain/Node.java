@@ -93,7 +93,7 @@ public class Node<T extends Comparable<T>> implements Comparable<Node<T>> {
 	/**
 	 * Get the right node of this node
 	 * 
-	 * @return
+	 * @return the right node of this node
 	 */
 	public Node<T> getRight() {
 		return right;
@@ -103,6 +103,7 @@ public class Node<T extends Comparable<T>> implements Comparable<Node<T>> {
 	 * Set the rigth node of this node
 	 * 
 	 * @param right
+	 *            node of this node
 	 */
 	public void setRight(Node<T> right) {
 		this.right = right;
